@@ -19,7 +19,7 @@ export default function LoginForm() {
     e.preventDefault();
     setLoading(true)
     if (!email || !password) {
-      setError("All fields are mandatory.");
+      setError("All fields are necessary.");
       return;
     }
 

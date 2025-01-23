@@ -29,24 +29,29 @@ export default function LoginForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email,password }),
+        body: JSON.stringify({ email, password }),
       });
+
+      if (!resUserExists.ok) {
+        const errorData = await resUserExists.json();
+        throw new Error(errorData.message || "Login failed.");
+      }
 
       const { user } = await resUserExists.json();
 
-      if (user && user._id) {
-        const customerId = user._id;
-        localStorage.setItem("customer", JSON.stringify({ customerId }));
-        router.push(`/booking/${customerId}`);
-      } else {
-        throw new Error("User not found");
-      }
+      
+      localStorage.setItem("customer", JSON.stringify({ customerId: user.id }));
+
+      
+      router.push(`/booking/${user.id}`);
     } catch (error) {
-      toast.error("Login failed. Please try again.");
-    }finally{
+      setError(error.message || "Login failed. Please try again.");
+      toast.error(error.message || "Login failed. Please try again.");
+    } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="grid place-items-center h-screen overflow-x-hidden">

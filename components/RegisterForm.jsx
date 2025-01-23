@@ -22,10 +22,10 @@ export default function RegisterForm() {
       setError("All fields are necessary.");
       return;
     }
-    if (!email.endsWith("@zinnia.com")) {
-      setError("Invalid credentials");
-      return;
-    }
+//    if (!email.endsWith("@zinnia.com")) {
+//     setError("Invalid credentials");
+//      return;
+//    }
 
     try {
       setLoading(true)

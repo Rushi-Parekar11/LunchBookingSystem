@@ -7,6 +7,7 @@ import MenuItems from "@/components/MenuItems";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import LoadingGif from "../../../assets/LoadingComponentImage.gif";
+import Ad from "../../../assets/Ads.jpeg"
 
 const getISTDate = () => {
   const now = new Date();
@@ -82,15 +83,17 @@ const Page = () => {
 
     const dayOfWeek = getDayOfWeek(formattedDate);
     setSelectedDate({ date: formattedDate, day: dayOfWeek });
-
+    getMenuItems(formattedDate);
     fetchOrders(formattedDate);
-    getMenuItems();
   }, []);
 
-  const getMenuItems = async () => {
-    const res = await fetch("/api/getMenuItems");
+  const getMenuItems = async (date) => {
+    const [year, month, day] = date.split("-");
+    const monthName = getMonthName(parseInt(month) - 1);
+    const res = await fetch(`/api/getWeeklyMenu?date=${day}&month=${monthName}&year=${year}`);
     const data = await res.json();
-    setMenuItems(data);
+    console.log(data)
+    setMenuItems(data.menu);
   };
 
   const fetchOrders = async (date) => {
@@ -138,13 +141,36 @@ const Page = () => {
     const date = e.target.value;
     const dayOfWeek = getDayOfWeek(date);
     setSelectedDate({ date, day: dayOfWeek });
+    getMenuItems(date);
     fetchOrders(date);
+  };
+
+  const handleClick = async () => {
+    try {
+      const response = await fetch("/api/addLead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ customerId }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Thank you for your interest we will reach you soon !");
+      } else {
+        console.error("Failed to add lead:", data.message);
+        toast.error("Failed to process your request. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred. Please try again later.");
+    }
   };
 
   return (
     <>
       <Navbar />
-
       <div className="block justify-center gap-4 mt-7 overflow-x-hidden">
         <div className="flex justify-center mb-5 md:mb-3">
           <input
@@ -154,10 +180,20 @@ const Page = () => {
             className="border rounded-lg p-2 w-72"
           />
         </div>
-        {/* <p className="flex justify-center bg-red-600 p-1 text-white">
-          <TriangleAlert className="mx-1" />
-          Orders close after 10:00 AM today.
-        </p> */}
+
+        <div className="flex flex-col md:flex-row items-center justify-center space-y-4 my-6">
+      <div
+        className="relative rounded-lg overflow-hidden shadow-lg cursor-pointer"
+        onClick={handleClick}
+      >
+        <Image
+          src={Ad}
+          className="w-[350px] md:w-[450px] h-[180px] md:h-[200px] object-cover"
+          alt="Personal Loan Banner"
+        />
+      </div>
+    </div>
+
         {loading ? (
           <Image
             src={LoadingGif}
@@ -172,7 +208,7 @@ const Page = () => {
             <OrderDetailsUser userOrder={orders} />
           </div>
         ) : (
-          <div className="p-4 bg-white rounded-lg md:mx-16">
+          <div className="p-4 bg-white rounded-lg md:mx-16 mb-28">
             <h2 className="text-2xl font-bold mb-3">Menu</h2>
             <MenuItems menuItems={menuItems} selectedDate={selectedDate} />
           </div>

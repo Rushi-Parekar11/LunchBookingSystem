@@ -2,7 +2,6 @@ import { Plus, Minus } from "lucide-react";
 import React, { useState } from "react";
 import { Badge } from "./ui/badge";
 
-// Days when Non-Veg items are available
 const nonVegAvailableDays = ["Wednesday", "Friday"];
 
 const MenuCard = ({ item, onOrder, onRemove, dayName }) => {
@@ -12,7 +11,6 @@ const MenuCard = ({ item, onOrder, onRemove, dayName }) => {
     return item.price + 10;
   };
 
-  // Check if the item should be visible based on the day and type
   const isNonVegVisible =
     item.type !== "Non-Veg" || nonVegAvailableDays.includes(dayName);
 
@@ -28,7 +26,7 @@ const MenuCard = ({ item, onOrder, onRemove, dayName }) => {
   }
 
   return (
-    <div key={item._id} className="mb-5 shadow-xl rounded-2xl mx-1 p-2 md:w-[300px]">
+    <div key={item._id} className="mb-5 shadow-xl rounded-2xl mx-1 p-2 md:w-[350px]">
       <img
         src={item.imageUrl}
         className="rounded-xl shadow-xl h-[150px] w-full object-cover"
@@ -55,6 +53,7 @@ const MenuCard = ({ item, onOrder, onRemove, dayName }) => {
             </button>
           </span>
         </h3>
+        <p className=" text-md text-gray-400">{item.description}</p>
       </div>
       <div className="mx-1 mb-5">
         {item.type === "Veg" ? (

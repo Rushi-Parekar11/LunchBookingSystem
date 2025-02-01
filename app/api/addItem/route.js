@@ -9,16 +9,16 @@ export async function POST(req) {
 
     try {
         const body = await req.json();
-        const { itemName, price, vendor, description, imageUrl } = body;
+        const { itemName, price, vendor, description, imageUrl,type,menuDate } = body;
 
-        if (!itemName || !price || !vendor) {
+        if (!itemName || !price || !vendor || !type || !menuDate) {
             return new Response(JSON.stringify({ message: 'All fields are required.' }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' }
             });
         }
 
-        const newItem = new Menu({ itemName, price, vendor, description, imageUrl });
+        const newItem = new Menu({ itemName, price, vendor, description, imageUrl,type,menuDate });
         const savedItem = await newItem.save();
 
         // Find vendor and update menuItems

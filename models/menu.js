@@ -23,6 +23,24 @@ const menuSchema = new Schema(
       type: Number,
       required: true
     },
+    menuDate: {
+      date: {
+        type: Number,
+        required: true
+      },
+      dayName: {
+        type: String,
+        required: true
+      },
+      month: {
+        type: String,
+        required: true
+      },
+      year: {
+        type: Number,
+        required: true
+      }
+    },
     vendor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",

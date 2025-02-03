@@ -5,7 +5,8 @@ import WortheatIMG from "../assets/NoBG.svg";
 
 export default function Page() {
   return (
-    <div className="relative w-screen h-screen flex flex-col items-center justify-center text-center px-4">
+    <>
+    <div className="relative h-screen flex flex-col items-center justify-center text-center px-4">
       <Image
         src={heroImage}
         alt="Background"
@@ -30,5 +31,7 @@ export default function Page() {
         Order Now
       </Link>
     </div>
+    </>
+
   );
 }

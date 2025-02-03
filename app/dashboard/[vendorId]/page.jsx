@@ -273,7 +273,7 @@ export default function VendorDashboard() {
                 return (
                   <tr key={order._id} className="hover:bg-gray-100">
                     <td className="py-2 px-4 border">{order._id}</td>
-                    <td className="py-2 px-4 border">{order.customer.firstName} {order.customer.lastName}</td>
+                    {/* <td className="py-2 px-4 border">{order.customer.firstName} {order.customer.lastName}</td> */}
                     <td className="py-2 px-4 border">{itemQuantities["Veg-Thali"] || 0}</td>
                     <td className="py-2 px-4 border">{itemQuantities["Non-Veg-Thali"] || 0}</td>
                     <td className="py-2 px-4 border">₹{order.totalAmount}</td>

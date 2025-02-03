@@ -2,39 +2,42 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 
 export default function RegisterForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [empId, setEmpId] = useState("");
+  const [address, setAddress] = useState("");
+  const [company, setCompany] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!firstName || !email || !password || !lastName) {
+    if (!firstName || !email || !password || !lastName || !address || !company) {
       setError("All fields are necessary.");
       return;
     }
-//    if (!email.endsWith("@zinnia.com")) {
-//     setError("Invalid credentials");
-//      return;
-//    }
+
+    if (password.length < 8) {
+      setError("Password should be at least 8 characters long.");
+      return;
+    }
 
     try {
-      setLoading(true)
+      setLoading(true);
       const resUserExists = await fetch("/api/userExists", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email,password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const { user } = await resUserExists.json();
@@ -54,6 +57,8 @@ export default function RegisterForm() {
           lastName,
           email,
           password,
+          address,
+          company,
         }),
       });
 
@@ -66,56 +71,55 @@ export default function RegisterForm() {
       }
     } catch (error) {
       console.log("Error during registration: ", error);
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleNavigation=()=>{
-    router.push("/")
-  }
+  const handleNavigation = () => {
+    router.push("/");
+  };
 
   return (
     <div className="grid place-items-center h-screen overflow-x-hidden">
       <div className="shadow-lg p-5 rounded-lg border-t-4 border-orange-400">
-      <ArrowLeft size={30} onClick={handleNavigation} className='cursor-pointer rounded-full hover:scale-125 duration-100'/>
+        <ArrowLeft size={30} onClick={handleNavigation} className='cursor-pointer rounded-full hover:scale-125 duration-100' />
         <h1 className="text-xl font-bold my-4">User Register</h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-72 md:w-96">
-          <input
-            onChange={(e) => setFirstName(e.target.value)}
-            type="text"
-            placeholder="First Name"
-            className="w-72 md:w-full"
-          />
-          <input
-            onChange={(e) => setLastName(e.target.value)}
-            type="text"
-            placeholder="Last Name"
-            className="w-72 md:w-full"
-          />
-          {/* <input
-            onChange={(e) => setEmpId(e.target.value)}
-            type="text"
-            placeholder="Employee Id"
-          /> */}
-          <div className="flex items-center">
-            <input
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-              placeholder="Email"
-              className="w-72 md:w-full"
+          <input onChange={(e) => setFirstName(e.target.value)} type="text" placeholder="First Name" className="w-72 md:w-full" />
+          <input onChange={(e) => setLastName(e.target.value)} type="text" placeholder="Last Name" className="w-72 md:w-full" />
+          <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" className="w-72 md:w-full" />
+          
+          <div className="relative w-72 md:w-full">
+            <input 
+              onChange={(e) => setPassword(e.target.value)} 
+              type={showPassword ? "text" : "password"} 
+              placeholder="Password (Min 8 characters)" 
+              className="w-full pr-10"
             />
-            {/* <span className="ml-2 text-orange-500 font-bold">@zinnia.com</span> */}
+            <span 
+              onClick={() => setShowPassword(!showPassword)} 
+              className="absolute right-2 top-3 cursor-pointer"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </span>
           </div>
-          <input
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            placeholder="Password"
-            className="w-72 md:w-full"
-          />
+          
+          <select onChange={(e) => setAddress(e.target.value)} className="w-72 md:w-full py-3 pl-5 border">
+            <option value="">Select Address</option>
+            <option value="123 Main St">123 Main St</option>
+            <option value="456 Elm St">456 Elm St</option>
+          </select>
+          
+          <select onChange={(e) => setCompany(e.target.value)} className="w-72 md:w-full py-3 pl-5 border">
+            <option value="">Select Company</option>
+            <option value="Google">Google</option>
+            <option value="Microsoft">Microsoft</option>
+          </select>
+
           <button className="bg-orange-600 text-white font-bold cursor-pointer px-6 py-2 rounded-md">
-           {loading === true  ? "Registering your account... Please wait" :"Register"}
+            {loading ? "Registering your account... Please wait" : "Register"}
           </button>
 
           {error && (
@@ -124,7 +128,7 @@ export default function RegisterForm() {
             </div>
           )}
 
-          <Link className="text-sm mt-3 text-right" href={"/onboardingcustomer/login"}>
+          <Link className="text-sm mt-3 text-right" href="/onboardingcustomer/login">
             Already have an account? <span className="underline">Login</span>
           </Link>
         </form>

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function LoginForm() {
@@ -11,6 +11,8 @@ export default function LoginForm() {
   const [error, setError] = useState("");
   const router = useRouter();
   const [loading,setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleNavigation = () => {
     router.push("/");
   };
@@ -73,12 +75,20 @@ export default function LoginForm() {
             />
             {/* <span className="ml-1 md:ml-2 text-orange-500 font-bold">@zinnia.com</span> */}
           </div>
-          <input
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            placeholder="Password"
-            className="w-72 md:w-full"
-          />
+          <div className="relative w-72 md:w-full">
+            <input 
+              onChange={(e) => setPassword(e.target.value)} 
+              type={showPassword ? "text" : "password"} 
+              placeholder="Password" 
+              className="w-full pr-10"
+            />
+            <span 
+              onClick={() => setShowPassword(!showPassword)} 
+              className="absolute right-2 top-3 cursor-pointer"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </span>
+          </div>
           <button className="bg-orange-600 text-white font-bold cursor-pointer px-6 py-2 rounded-md">
             {loading === true ? "Logging you in ..." : "Login"}
           </button>

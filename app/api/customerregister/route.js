@@ -5,10 +5,10 @@ import bcrypt from "bcryptjs";
 
 export async function POST(req) {
   try {
-    const { firstName, lastName, email, password } = await req.json();
+    const { firstName, lastName, email, password,company,address } = await req.json();
 
    
-    if (!firstName || !lastName || !email || !password) {
+    if (!firstName || !lastName || !email || !password|| !company|| !address) {
       return NextResponse.json(
         { message: "All fields are required." },
         { status: 400 }
@@ -46,7 +46,7 @@ export async function POST(req) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     
-    await User.create({ firstName, lastName, email, password: hashedPassword });
+    await User.create({ firstName, lastName, email, password: hashedPassword,address,company });
 
     return NextResponse.json(
       { message: "User registered successfully." },

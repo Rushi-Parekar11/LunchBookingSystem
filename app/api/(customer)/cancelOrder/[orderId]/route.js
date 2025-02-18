@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import {connectMongoDB} from "../../../../lib/mongodb";  // Ensure DB connection
-import Order from "../../../../models/orders";       // Import your Mongoose Order model
+import { connectMongoDB } from "@/lib/mongodb";
+import Orders from "@/models/orders";
 
 
 
@@ -14,7 +14,7 @@ export async function DELETE(req, { params }) {
   try {
     await connectMongoDB();  // Connect to the database
 
-    const deletedOrder = await Order.findByIdAndDelete(orderId);
+    const deletedOrder = await Orders.findByIdAndDelete(orderId);
 
     if (!deletedOrder) {
       return NextResponse.json({ message: "Order not found" }, { status: 404 });

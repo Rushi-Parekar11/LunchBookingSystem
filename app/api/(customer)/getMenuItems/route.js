@@ -1,5 +1,5 @@
-import Menu from '../../../models/menu';
-import {connectMongoDB} from '../../../lib/mongodb';
+import { connectMongoDB } from '@/lib/mongodb';
+import Menu from '@/models/menu';
 
 
 export async function GET() {

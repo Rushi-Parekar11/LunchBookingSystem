@@ -1,5 +1,5 @@
 import { connectMongoDB } from "@/lib/mongodb";
-import Orders from "../../../../../models/orders";
+import Orders from "@/models/orders";
 import { NextResponse } from "next/server";
 
 export async function PATCH(req, { params }) {

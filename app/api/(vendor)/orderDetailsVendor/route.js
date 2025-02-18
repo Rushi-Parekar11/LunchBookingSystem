@@ -1,8 +1,8 @@
-import { connectMongoDB } from "../../../../lib/mongodb";
-import Orders from "../../../../models/orders";
-import User from "../../../../models/user";
-import Menu from "../../../../models/menu";
 import { NextResponse } from "next/server";
+import Orders from "@/models/orders";
+import User from "@/models/user";
+import Menu from "@/models/menu";
+import { connectMongoDB } from "@/lib/mongodb";
 
 export async function GET(req) {
   try {

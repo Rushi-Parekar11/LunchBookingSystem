@@ -1,6 +1,6 @@
-import { connectMongoDB } from '../../../lib/mongodb'
-import Menu from '../../../models/menu'
-import Vendor from '../../../models/vendor'
+import { connectMongoDB } from '@/lib/mongodb';
+import Menu from '@/models/menu';
+import Vendor from '@/models/vendor';
 
 
 

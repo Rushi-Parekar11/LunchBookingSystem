@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { connectMongoDB } from '../../../../lib/mongodb';
-import Orders from '../../../../models/orders';
-import User from '../../../../models/user';
-import Menu from '../../../../models/menu';
-import Vendor from '../../../../models/vendor';
+import { connectMongoDB } from '@/lib/mongodb';
+import Orders from '@/models/orders';
+import User from '@/models/user';
+import Menu from '@/models/menu';
+import Vendor from '@/models/vendor';
 
 export async function GET(req) {
   const orderId = req.nextUrl.searchParams.get('orderId'); // Get from query string
@@ -14,7 +14,7 @@ export async function GET(req) {
 
   try {
     await connectMongoDB();
-    console.log("DB Connected");
+    // console.log("DB Connected");
 
     const order = await Orders.findById(orderId)
   .populate({

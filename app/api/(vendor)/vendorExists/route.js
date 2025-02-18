@@ -1,5 +1,5 @@
-import { connectMongoDB } from "../../../../lib/mongodb";
-import Vendor from "../../../../models/vendor";  // Assuming Vendor model is defined
+import { connectMongoDB } from "@/lib/mongodb";
+import Vendor from "@/models/vendor";
 import { NextResponse } from "next/server";
 
 

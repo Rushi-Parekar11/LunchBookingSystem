@@ -1,5 +1,5 @@
+import { connectMongoDB } from "@/lib/mongodb";
 import Menu from "@/models/menu";
-import { connectMongoDB } from '../../../../lib/mongodb'
 
 export async function PATCH(req) {
   try {

@@ -45,7 +45,7 @@ export default function LoginForm() {
       localStorage.setItem("customer", JSON.stringify({ customerId: user.id }));
 
       
-      router.push(`/booking/${user.id}`);
+      router.push(`/booking/${user.id}/weeklymenu`);
     } catch (error) {
       setError(error.message || "Login failed. Please try again.");
       toast.error(error.message || "Login failed. Please try again.");

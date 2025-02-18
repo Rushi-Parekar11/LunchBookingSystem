@@ -9,7 +9,7 @@ export default function Home() {
   useEffect(() => {
     const customer = JSON.parse(localStorage.getItem("customer"));
     if (customer && customer.customerId) {
-      router.push(`/booking/${customer.customerId}`);
+      router.push(`/booking/${customer.customerId}/weeklymenu`);
     }
   }, [router]);
 

@@ -14,9 +14,19 @@ const orderSchema = new Schema(
     },
     items: [
       {
-        menuItem: {
+        itemId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Menu",
+          required: true,
+          refPath: "items.itemType"
+        },
+        itemType: {
+          type: String,
+          enum: ["Menu", "Snack"],
+          required: true
+        },
+        category: {
+          type: String,
+          enum: ["WeeklyMenu", "BreakFast", "AllDaySnacks"], 
           required: true
         },
         quantity: {
@@ -53,8 +63,12 @@ const orderSchema = new Schema(
     },
     status: {
       type: String,
-      default: "Pending", 
+      default: "Pending"
     },
+    paymentStatus: {
+      type: String,
+      default: "Pending"
+    }
   },
   { timestamps: true }
 );

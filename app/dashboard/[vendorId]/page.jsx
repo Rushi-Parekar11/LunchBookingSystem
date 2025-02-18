@@ -40,7 +40,7 @@ export default function VendorDashboard() {
     }
 
     if (vendorId) {
-      fetchOrders();
+      // fetchOrders();
     }
   }, [vendorId, selectedDate]);
 

@@ -90,63 +90,6 @@ const MenuItems = ({ menuItems, selectedDate }) => {
     );
   };
 
-  // const handleOrder = async () => {
-  //   if (orderItems.length === 0) {
-  //     toast.error("No items in the order.");
-  //     return;
-  //   }
-  //   const [year, month, day] = dayInfo.split("-");
-  //   const monthName = getMonthName(parseInt(month) - 1);
-  //   console.log(year,monthName,day);
-
-  //   const customer = JSON.parse(localStorage.getItem("customer"));
-  //   const customerId = customer.customerId
-
-  //   setLoading(true);
-
-  //   const orderData = {
-  //     customer: customerId,
-  //     vendor: orderItems[0]?.vendor,
-  //     items: orderItems.map((item) => ({
-  //       menuItem: item._id,
-  //       quantity: item.quantity,
-  //       price: item.price * item.quantity,
-  //     })),
-  //     totalAmount: calculateTotalPrice(),
-  //     orderDate: {
-  //       date: day,
-  //       dayName: selectedDate.day,
-  //       month: monthName,
-  //       year: year,
-  //     },
-  //   };
-  //   console.log(orderData)
-
-  //   try {
-  //     const res = await fetch("/api/addOrders", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(orderData),
-  //     });
-
-  //     const data = await res.json();
-  //     console.log("order Placed Data",data)
-  //     if (res.ok) {
-  //       toast.success("Order placed successfully!");
-  //       window.location.reload();
-  //     } else {
-  //       toast.error("Failed to place order: " + data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("Order Error:", error);
-  //     toast.error("An error occurred while placing the order.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleOrder = async () => {
     // Check if the order is after 10 AM
     // Check if the order is after 10 AM
@@ -157,8 +100,6 @@ const MenuItems = ({ menuItems, selectedDate }) => {
 
     const [year, month, day] = dayInfo.split("-");
     const monthName = getMonthName(parseInt(month) - 1);
-    // console.log(year, monthName, day);
-
     // Restrict orders only if the selected date is today, in the past, or after 10:00 AM
     if (
       dayInfo === today &&
@@ -180,30 +121,6 @@ const MenuItems = ({ menuItems, selectedDate }) => {
       return;
     }
 
-    //New 11:00 PM Logic
-    // const now = new Date();
-    // const currentHour = now.getHours();
-    // const currentMinute = now.getMinutes();
-    // const today = now.toISOString().split("T")[0]; // Get current date in "YYYY-MM-DD" format
-
-    // const [year, month, day] = dayInfo.split("-");
-    // const monthName = getMonthName(parseInt(month) - 1);
-    // const chosenDate = new Date(year, month - 1, day); // Construct a Date object for the selected date
-
-    // // Set the cutoff date and time to the day before the selected date at 11:00 PM
-    // const cutoffDate = new Date(chosenDate);
-    // cutoffDate.setDate(cutoffDate.getDate() - 1); // Move to the previous day
-    // cutoffDate.setHours(23, 0, 0, 0); // Set the time to 11:00 PM
-
-    // Compare current time with cutoff time
-    //!!!Removed the 11:00 PM order logic
-    //     if (now > cutoffDate) {
-    //       toast.error(`No orders can be placed for ${dayInfo} after 11:00 PM on ${cutoffDate.toISOString().split("T")[0]}.`);
-    //       setOrderItems([]);
-    //       setItemQuantities({});
-    //       return;
-    // }
-
     const customer = JSON.parse(localStorage.getItem("customer"));
     const customerId = customer.customerId;
 
@@ -213,7 +130,9 @@ const MenuItems = ({ menuItems, selectedDate }) => {
       customer: customerId,
       vendor: orderItems[0]?.vendor,
       items: orderItems.map((item) => ({
-        menuItem: item._id,
+        itemId: item._id,
+        itemType: "Menu", // Add itemType as "Menu"
+        category: "WeeklyMenu", // Ensure each item has a category
         quantity: item.quantity,
         price: item.price * item.quantity,
       })),
@@ -225,6 +144,8 @@ const MenuItems = ({ menuItems, selectedDate }) => {
         year: year,
       },
     };
+    
+  
 
     // console.log(orderData);
 
@@ -243,9 +164,9 @@ const MenuItems = ({ menuItems, selectedDate }) => {
         const orderId = data.order._id;
         toast.dismiss();
         toast.success("Order placed successfully!");
-        router.push(`/orderDetails/${orderId}`);
+        router.push(`/checkout/${orderId}`);
       } else {
-        toast.error("Failed to place order: " + data.message);
+        toast.error("Failed Try Again !");
       }
     } catch (error) {
       console.error("Order Error:", error);

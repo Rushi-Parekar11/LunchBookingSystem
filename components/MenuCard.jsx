@@ -1,8 +1,5 @@
 import { Plus, Minus } from "lucide-react";
 import React, { useState } from "react";
-import { Badge } from "./ui/badge";
-
-const nonVegAvailableDays = ["Wednesday", "Friday"];
 
 const MenuCard = ({ item, onOrder, onRemove, dayName }) => {
   const [quantity, setQuantity] = useState(1);
@@ -10,20 +7,6 @@ const MenuCard = ({ item, onOrder, onRemove, dayName }) => {
   const calculateMarkUpPrice = (item) => {
     return item.price + 10;
   };
-
-  const isNonVegVisible =
-    item.type !== "Non-Veg" || nonVegAvailableDays.includes(dayName);
-
-  if (!isNonVegVisible) {
-    return (
-      <div className="shadow-xl rounded-2xl p-2 flex items-center justify-center mb-5">
-        <p className="inline justify-center">
-          Non-Veg Thali is available only on<br></br>
-          <span className="font-bold flex justify-center text-xl">{nonVegAvailableDays.join(" and ")}</span>
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div key={item._id} className="mb-5 shadow-xl rounded-2xl mx-1 p-2 md:w-[350px]">
@@ -54,17 +37,6 @@ const MenuCard = ({ item, onOrder, onRemove, dayName }) => {
           </span>
         </h3>
         <p className=" text-md text-gray-400">{item.description}</p>
-      </div>
-      <div className="mx-1 mb-5">
-        {item.type === "Veg" ? (
-          <Badge className="ml-2">Available</Badge>
-        ) : (
-          nonVegAvailableDays.map((day) => (
-            <Badge key={day} className="mx-1">
-              {day}
-            </Badge>
-          ))
-        )}
       </div>
 
       <div className="mt-2">

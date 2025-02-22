@@ -37,13 +37,13 @@ const OrderCard = ({ order }) => {
             className="flex items-center p-4 border rounded-lg shadow-sm"
           >
             <img
-              src={item.itemId.imageUrl}
-              alt={item.itemId.itemName}
+              src={item?.itemId?.imageUrl}
+              alt={item?.itemId?.itemName}
               className="w-24 h-24 rounded-lg object-cover mr-5"
             />
             <div>
-              <h3 className="text-lg font-medium">{item.itemId.itemName}</h3>
-              <p className="font-semibold">₹{item.itemId.price}</p>
+              <h3 className="text-lg font-medium">{item?.itemId?.itemName}</h3>
+              <p className="font-semibold">₹{item?.itemId?.price}</p>
               <p>
                 Quantity: <span className="font-bold">{item.quantity}</span>
               </p>

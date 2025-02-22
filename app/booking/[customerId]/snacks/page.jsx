@@ -228,7 +228,7 @@ const BreakfastMenu = () => {
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div className="md:h-screen">
+    <div className="">
       <Navbar />
       <h2 className="text-3xl font-bold text-center my-6">Snacks Menu</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 mx-10 md:mx-20">
